@@ -2,6 +2,7 @@ package br.com.acdev.transaction_processor.service;
 
 import br.com.acdev.transaction_processor.exceptions.NotFoundException;
 import br.com.acdev.transaction_processor.model.Account;
+import br.com.acdev.transaction_processor.model.OperationType;
 import br.com.acdev.transaction_processor.model.Transaction;
 import br.com.acdev.transaction_processor.repository.AccountRepository;
 import br.com.acdev.transaction_processor.repository.TransactionRepository;
@@ -26,6 +27,11 @@ public class TransactionService {
                 .orElseThrow(() -> new NotFoundException("Account not found"));
         transaction.setAccount(account);
         transaction.setEventDate(LocalDateTime.now());
+        if(transaction.getOperationType() == OperationType.PAYMENT){
+            transaction.setAmount(transaction.getAmount().abs());
+        }else{
+            transaction.setAmount(transaction.getAmount().negate());
+        }
         return repository.save(transaction);
     }
 }

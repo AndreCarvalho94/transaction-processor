@@ -28,6 +28,6 @@ public class TransactionResponse {
         this.transactionId = transaction.getTransactionId();
         this.accountId = transaction.getAccount().getAccountId();
         this.operationTypeId = transaction.getOperationType().getOperationId();
-        this.amount = transaction.getAmount();
+        this.amount = transaction.getAmount().abs();
     }
 }
