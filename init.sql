@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS transactions;
+GRANT ALL PRIVILEGES ON transactions.* TO 'user'@'%' IDENTIFIED BY 'password';
+FLUSH PRIVILEGES;
