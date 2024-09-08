@@ -18,7 +18,7 @@ public class Account {
     @Column(name = "account_id")
     private Long accountId;
 
-    @Column(name = "document_number")
+    @Column(name = "document_number", unique = true)
     private String documentNumber;
 
     @ToString.Exclude
