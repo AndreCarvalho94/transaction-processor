@@ -1,10 +1,7 @@
 package br.com.acdev.transaction_processor.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -24,6 +21,7 @@ public class Account {
     @Column(name = "document_number")
     private String documentNumber;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     List<Transaction> transactions;
 

@@ -2,11 +2,9 @@ package br.com.acdev.transaction_processor.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -25,11 +23,13 @@ public class Transaction {
     @Column(name = "event_date")
     private LocalDateTime eventDate;
 
-    private Long amount;
+    private BigDecimal amount;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "operation_type")
     private OperationType operationType;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;

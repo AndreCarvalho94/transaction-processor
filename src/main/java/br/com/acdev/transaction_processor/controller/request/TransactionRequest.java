@@ -5,6 +5,8 @@ import br.com.acdev.transaction_processor.model.Transaction;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class TransactionRequest {
 
@@ -13,7 +15,7 @@ public class TransactionRequest {
     @JsonProperty("operation_type_id")
     private Integer operationTypeId;
     @JsonProperty("amount")
-    private Long amount;
+    private BigDecimal amount;
 
     public Transaction toTransaction(){
         return Transaction.builder()

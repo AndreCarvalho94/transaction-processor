@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.security.PublicKey;
 
 @Data
@@ -21,7 +22,7 @@ public class TransactionResponse {
     @JsonProperty("operation_type_id")
     private Integer operationTypeId;
     @JsonProperty("amount")
-    private Long amount;
+    private BigDecimal amount;
 
     public TransactionResponse(Transaction transaction){
         this.transactionId = transaction.getTransactionId();
