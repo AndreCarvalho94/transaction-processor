@@ -6,6 +6,8 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
+import static br.com.acdev.transaction_processor.utils.MESSAGES.INVALID_OPERATION_ID;
+
 @Getter
 @AllArgsConstructor
 public enum OperationType{
@@ -20,7 +22,7 @@ public enum OperationType{
                 stream(OperationType.values())
                 .filter(o->o.operationId == id)
                 .findAny()
-                .orElseThrow(()-> new InvalidOperationTypeException("Invalid Operation Id: "+ id));
+                .orElseThrow(()-> new InvalidOperationTypeException(INVALID_OPERATION_ID + id));
     }
 }
 

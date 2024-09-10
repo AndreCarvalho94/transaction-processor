@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import static br.com.acdev.transaction_processor.utils.MESSAGES.ACCOUNT_NOT_FOUND;
+
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +26,7 @@ public class TransactionService {
     public Transaction create(Transaction transaction, Long accountId) {
         Account account = accountRepository
                 .findById(accountId)
-                .orElseThrow(() -> new NotFoundException("Account not found"));
+                .orElseThrow(() -> new NotFoundException(ACCOUNT_NOT_FOUND));
         transaction.setAccount(account);
         transaction.setEventDate(LocalDateTime.now());
         if(transaction.getOperationType() == OperationType.PAYMENT){

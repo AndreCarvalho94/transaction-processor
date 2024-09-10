@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import static br.com.acdev.transaction_processor.utils.MESSAGES.ACCOUNT_NOT_FOUND;
+
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +22,6 @@ public class AccountService {
     }
 
     public Account read(Long id){
-        return repository.findById(id).orElseThrow(()->new NotFoundException("Account not found"));
+        return repository.findById(id).orElseThrow(()->new NotFoundException(ACCOUNT_NOT_FOUND));
     }
 }

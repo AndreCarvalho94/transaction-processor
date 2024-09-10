@@ -1,12 +1,11 @@
 package br.com.acdev.transaction_processor;
 
+import br.com.acdev.transaction_processor.integration.IntegrationTestsBase;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class TransactionProcessorApplicationTests {
+class TransactionProcessorApplicationTests extends IntegrationTestsBase {
 
-	//@Test
+	@Test
 	void contextLoads() {
 	}
 
