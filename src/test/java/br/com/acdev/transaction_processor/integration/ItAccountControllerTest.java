@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import static br.com.acdev.transaction_processor.utils.MESSAGES.ACCOUNT_NOT_FOUND;
+import static br.com.acdev.transaction_processor.utils.Messages.ACCOUNT_NOT_FOUND;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 

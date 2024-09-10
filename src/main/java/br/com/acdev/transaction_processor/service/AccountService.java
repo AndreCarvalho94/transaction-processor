@@ -7,7 +7,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static br.com.acdev.transaction_processor.utils.MESSAGES.ACCOUNT_NOT_FOUND;
+import static br.com.acdev.transaction_processor.utils.Messages.ACCOUNT_NOT_FOUND;
 
 
 @Service

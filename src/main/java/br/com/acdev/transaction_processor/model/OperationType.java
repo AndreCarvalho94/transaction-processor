@@ -6,7 +6,7 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
-import static br.com.acdev.transaction_processor.utils.MESSAGES.INVALID_OPERATION_ID;
+import static br.com.acdev.transaction_processor.utils.Messages.INVALID_OPERATION_ID;
 
 @Getter
 @AllArgsConstructor

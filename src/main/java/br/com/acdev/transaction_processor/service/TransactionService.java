@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-import static br.com.acdev.transaction_processor.utils.MESSAGES.ACCOUNT_NOT_FOUND;
+import static br.com.acdev.transaction_processor.utils.Messages.ACCOUNT_NOT_FOUND;
 
 
 @Service

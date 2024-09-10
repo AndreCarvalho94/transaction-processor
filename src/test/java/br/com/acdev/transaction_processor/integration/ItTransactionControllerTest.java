@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import java.math.BigDecimal;
 
 import static br.com.acdev.transaction_processor.model.OperationType.*;
-import static br.com.acdev.transaction_processor.utils.MESSAGES.INVALID_OPERATION_ID;
+import static br.com.acdev.transaction_processor.utils.Messages.INVALID_OPERATION_ID;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
