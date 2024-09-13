@@ -9,7 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import java.math.BigDecimal;
+
 import static br.com.acdev.transaction_processor.utils.Messages.ACCOUNT_NOT_FOUND;
+import static br.com.acdev.transaction_processor.utils.Messages.INVALID_LIMIT;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -33,6 +36,38 @@ public class ItAccountControllerTest extends IntegrationTestsBase{
         .statusCode(HttpStatus.OK.value())
         .contentType(ContentType.JSON)
         .body("document_number", equalTo("12345678900"));
+    }
+
+    @Test
+    void should_not_create_an_account_with_invalid_limit() {
+        AccountRequest accountRequest = new AccountRequest();
+        accountRequest.setDocumentNumber("12345678900");
+        accountRequest.setAccountLimit(BigDecimal.valueOf(100L).negate());
+        given()
+                .contentType(ContentType.JSON)
+                .body(accountRequest)
+                .when()
+                .post("/accounts")
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .contentType(ContentType.JSON)
+                .body("error", equalTo(INVALID_LIMIT));
+    }
+
+    @Test
+    void should_create_an_account_with_zero_limit() {
+        AccountRequest accountRequest = new AccountRequest();
+        accountRequest.setDocumentNumber("12345678900");
+        accountRequest.setAccountLimit(BigDecimal.ZERO);
+        given()
+                .contentType(ContentType.JSON)
+                .body(accountRequest)
+                .when()
+                .post("/accounts")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .contentType(ContentType.JSON)
+                .body("document_number", equalTo(accountRequest.getDocumentNumber()));
     }
 
     @Test

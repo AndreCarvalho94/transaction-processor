@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import java.math.BigDecimal;
 
 import static br.com.acdev.transaction_processor.model.OperationType.*;
+import static br.com.acdev.transaction_processor.utils.Messages.INVALID_AMOUNT;
 import static br.com.acdev.transaction_processor.utils.Messages.INVALID_OPERATION_ID;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -136,6 +137,50 @@ public class ItTransactionControllerTest extends IntegrationTestsBase{
         .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
         .contentType(ContentType.JSON)
         .body("error", equalTo(INVALID_OPERATION_ID + operationtype));
+    }
+
+    @Test
+    void should_not_create_transaction_with_invalid_amount(){
+        //given
+        Account savedAccount = getDefaultAccount();
+        int operationtype = 1;
+        //and
+        TransactionRequest transactionRequest = new TransactionRequest(
+                savedAccount.getAccountId(),
+                operationtype,
+                BigDecimal.TEN.negate());
+        //and
+        given()
+                .contentType(ContentType.JSON)
+                .body(transactionRequest)
+                .when()
+                .post("/transactions")
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .contentType(ContentType.JSON)
+                .body("error", equalTo(INVALID_AMOUNT));
+    }
+
+    @Test
+    void should_not_create_transaction_with_amount_zero(){
+        //given
+        Account savedAccount = getDefaultAccount();
+        int operationtype = 1;
+        //and
+        TransactionRequest transactionRequest = new TransactionRequest(
+                savedAccount.getAccountId(),
+                operationtype,
+                BigDecimal.ZERO);
+        //and
+        given()
+                .contentType(ContentType.JSON)
+                .body(transactionRequest)
+                .when()
+                .post("/transactions")
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .contentType(ContentType.JSON)
+                .body("error", equalTo(INVALID_AMOUNT));
     }
 
 }
