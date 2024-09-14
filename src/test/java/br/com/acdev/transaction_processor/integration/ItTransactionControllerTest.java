@@ -4,6 +4,7 @@ import br.com.acdev.transaction_processor.controller.request.TransactionRequest;
 import br.com.acdev.transaction_processor.model.Account;
 import br.com.acdev.transaction_processor.model.OperationType;
 import br.com.acdev.transaction_processor.repository.AccountRepository;
+import br.com.acdev.transaction_processor.repository.TransactionRepository;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,7 @@ import org.springframework.http.HttpStatus;
 import java.math.BigDecimal;
 
 import static br.com.acdev.transaction_processor.model.OperationType.*;
-import static br.com.acdev.transaction_processor.utils.Messages.INVALID_AMOUNT;
-import static br.com.acdev.transaction_processor.utils.Messages.INVALID_OPERATION_ID;
+import static br.com.acdev.transaction_processor.utils.Messages.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -21,6 +21,9 @@ public class ItTransactionControllerTest extends IntegrationTestsBase{
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     @Test
     void should_create_payment_transaction(){
@@ -181,6 +184,52 @@ public class ItTransactionControllerTest extends IntegrationTestsBase{
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .contentType(ContentType.JSON)
                 .body("error", equalTo(INVALID_AMOUNT));
+    }
+
+    @Test
+    void should_not_create_transaction_with_too_low_limit_for_operation(){
+        transactionRepository.deleteAll();
+        //given
+        Account savedAccount = getDefaultAccount();
+        int operationtype = 1;
+        //and
+        TransactionRequest transactionRequest = new TransactionRequest(
+                savedAccount.getAccountId(),
+                operationtype,
+                savedAccount.getAccountLimit().add(BigDecimal.ONE));
+        //and
+        given()
+                .contentType(ContentType.JSON)
+                .body(transactionRequest)
+                .when()
+                .post("/transactions")
+                .then()
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .contentType(ContentType.JSON)
+                .body("error", equalTo(TOO_LOW_BALANCE));
+    }
+
+    @Test
+    void should_not_create_transaction_with_too_low_limit_for_operation_2(){
+        transactionRepository.deleteAll();
+        //given
+        Account savedAccount = getDefaultAccount();
+        int operationtype = 1;
+        //and
+        TransactionRequest transactionRequest = new TransactionRequest(
+                savedAccount.getAccountId(),
+                operationtype,
+                savedAccount.getAccountLimit().divide(BigDecimal.TWO));
+        //and
+        given()
+                .contentType(ContentType.JSON)
+                .body(transactionRequest)
+                .when()
+                .post("/transactions")
+                .then()
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .contentType(ContentType.JSON)
+                .body("error", equalTo(TOO_LOW_BALANCE));
     }
 
 }

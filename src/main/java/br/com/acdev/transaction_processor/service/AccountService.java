@@ -3,15 +3,11 @@ package br.com.acdev.transaction_processor.service;
 import br.com.acdev.transaction_processor.exceptions.InvalidLimitException;
 import br.com.acdev.transaction_processor.exceptions.NotFoundException;
 import br.com.acdev.transaction_processor.model.Account;
-import br.com.acdev.transaction_processor.model.OperationType;
 import br.com.acdev.transaction_processor.model.Transaction;
 import br.com.acdev.transaction_processor.repository.AccountRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.Optional;
 
 import java.math.BigDecimal;
 
@@ -40,7 +36,7 @@ public class AccountService {
     public BigDecimal readBalance(Long id) {
         Account account = repository
                 .findById(id)
-                .orElseThrow(()->new NotFoundException("Account not found"));
+                .orElseThrow(()->new NotFoundException(ACCOUNT_NOT_FOUND));
         return account
                 .getTransactions().stream()
                 .map(Transaction::getAmount)

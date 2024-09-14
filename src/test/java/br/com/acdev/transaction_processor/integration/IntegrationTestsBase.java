@@ -13,6 +13,8 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import io.restassured.RestAssured;
 
+import java.math.BigDecimal;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class IntegrationTestsBase {
 
@@ -46,6 +48,7 @@ public class IntegrationTestsBase {
     private Account createDefaultAccount() {
         Account account = new Account();
         account.setDocumentNumber("DEFAULT_ACCOUNT");
+        account.setAccountLimit(BigDecimal.TEN);
         return accountRepository.save(account);
     }
 
